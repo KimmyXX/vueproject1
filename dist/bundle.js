@@ -189,7 +189,7 @@ eval("function _interopRequireDefault(obj) {\n  return obj && obj.__esModule ? o
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nexports[\"default\"] = void 0;\n//\n//\n//\n//\n//\n//\n//\nvar _default = {\n  created: function created() {\n    var x = this.$http.get('http://192.168.1.105:10998/test');\n    console.log(x);\n  }\n};\nexports[\"default\"] = _default;\n\n//# sourceURL=webpack:///./components/App.vue?./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options");
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nexports[\"default\"] = void 0;\n//\n//\n//\n//\n//\n//\n//\nvar _default = {\n  created: function created() {\n    var x = this.$http.get('test');\n    console.log(x);\n  }\n};\nexports[\"default\"] = _default;\n\n//# sourceURL=webpack:///./components/App.vue?./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options");
 
 /***/ }),
 
@@ -502,7 +502,7 @@ eval("\n\nvar _interopRequireDefault = __webpack_require__(/*! @babel/runtime/he
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nvar _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ \"./node_modules/@babel/runtime/helpers/interopRequireDefault.js\");\n\nvar _vue = _interopRequireDefault(__webpack_require__(/*! vue */ \"./node_modules/vue/dist/vue.runtime.esm.js\"));\n\nvar _vueResource = _interopRequireDefault(__webpack_require__(/*! vue-resource */ \"./node_modules/vue-resource/dist/vue-resource.esm.js\"));\n\n_vue[\"default\"].use(_vueResource[\"default\"]);\n\n_vue[\"default\"].http.options.emulateJSON = true; //允许跨域\n// Vue.http.options.crossOrigin = true\n\n//# sourceURL=webpack:///./src/vueResource.js?");
+eval("\n\nvar _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ \"./node_modules/@babel/runtime/helpers/interopRequireDefault.js\");\n\nvar _vue = _interopRequireDefault(__webpack_require__(/*! vue */ \"./node_modules/vue/dist/vue.runtime.esm.js\"));\n\nvar _vueResource = _interopRequireDefault(__webpack_require__(/*! vue-resource */ \"./node_modules/vue-resource/dist/vue-resource.esm.js\"));\n\n_vue[\"default\"].use(_vueResource[\"default\"]);\n\n_vue[\"default\"].http.options.emulateJSON = true; //允许跨域\n\n_vue[\"default\"].http.options.crossOrigin = true; //配置全局请求根地址\n\n_vue[\"default\"].http.options.root = 'http://192.168.1.105:10998';\n\n//# sourceURL=webpack:///./src/vueResource.js?");
 
 /***/ }),
 

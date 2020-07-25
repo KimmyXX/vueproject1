@@ -8,8 +8,7 @@
 <script>
 export default {
   created() {
-    let x = this.$http.get('http://192.168.1.105:10998/test');
-    console.log(x);
+    let x = this.$http.get('test').then(res => alert(res.body));
   }
 };
 </script>

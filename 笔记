@@ -62,7 +62,10 @@ node_modules/
 配置file-loader
 第一步：npm install file-loader -D
 第二步：配置webpack.config.js
-
+配置加载图片文件
+{ test: /\.(png|jpg|gif)$/, use: "file-loader" },
+配置加载字体文件
+{ test: /\.(woff|woff2|eot|ttf|otf)$/, use: "file-loader" }
 
 
 3.
@@ -122,6 +125,35 @@ const VueLoaderPlugin = require("vue-loader/lib/plugin");
 plugins: [
     new VueLoaderPlugin()
 ]
+
+
+
+7.
+配置element-ui按需导入
+
+
+第一步：
+借助 babel-plugin-component，我们可以只引入需要的组件，以达到减小项目体积的目的。
+npm i -S element-ui
+npm install babel-plugin-component -D
+
+第二步：
+.babelrc 修改为
+{
+  "presets": [["es2015", { "modules": false }]],
+  "plugins": [
+    [
+      "component",
+      {
+        "libraryName": "element-ui",
+        "styleLibraryName": "theme-chalk"
+      }
+    ]
+  ]
+}
+
+
+注意：element-ui中有字体文件等，需要先配置file-loader加载字体文件
 
 
 

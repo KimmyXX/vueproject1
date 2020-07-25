@@ -1,17 +1,18 @@
 <template>
-  <div>12333333</div>
+  <div>
+    <div>12333333</div>
+    <el-button type="primary">123</el-button>
+  </div>
 </template>
 
 <script>
-export default {
-  
-}
+export default {};
 </script>
 
 <style  scoped>
-  div {
-    width: 500px;
-    height: 500px;
-    background: plum;
-  }
+div {
+  width: 500px;
+  height: 500px;
+  background: plum;
+}
 </style>

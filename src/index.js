@@ -1,4 +1,5 @@
 import '../style/test.css';
+import '../style/eleUi'
 import Vue from 'vue';
 import testVue from '../components/testVue.vue';
 

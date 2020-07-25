@@ -151,6 +151,11 @@ plugins: [
 
 
 
+配置vue-resource
+第一步：npm i -S vue-resource
+第二步：配置vue-resource文件，并导入index.js
+
+
 7.
 配置element-ui按需导入
 

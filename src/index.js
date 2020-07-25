@@ -1,7 +1,10 @@
 import './eleUi'
 import Vue from 'vue'
-import App from '../components/App.vue'
 import Router from './router'
+import './vueResource'
+import App from '../components/App.vue'
+
+
 
 let div = document.createElement('div');
 div.setAttribute('id','app');

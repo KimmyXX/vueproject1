@@ -83,8 +83,12 @@ webpack.config.js中配置
 第二步：配置webpack.config.js
 配置加载图片文件
 { test: /\.(png|jpg|gif)$/, use: "file-loader" },
-配置加载字体文件
-{ test: /\.(woff|woff2|eot|ttf|otf)$/, use: "file-loader" }
+
+配置加载字体文件,注意输出路径专门放到一个fonts文件夹
+{
+  test: /\.(woff|woff2|eot|ttf|otf)$/,
+  use: { loader: "file-loader", options: { outputPath: "../fonts" } }
+},
 
 
 3.

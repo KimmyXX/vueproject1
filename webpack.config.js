@@ -18,7 +18,10 @@ module.exports = {
       { test: /\.css$/, use: ["style-loader", "css-loader"] },
       { test: /\.(png|jpg|gif)$/, use: "file-loader" },
       // 加载字体文件
-      { test: /\.(woff|woff2|eot|ttf|otf)$/, use: "file-loader" },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/,
+        use: { loader: "file-loader", options: { outputPath: "../fonts" } }
+      },
       { test: /\.less$/, use: ["style-loader", "css-loader", "less-loader"] },
       // { test: /\.scss$/, use: ["style-loader", "css-loader", "sass-loader"] },
       {
@@ -30,7 +33,7 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
-        use:  "babel-loader"
+        use: "babel-loader"
       }
     ]
   },

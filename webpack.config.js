@@ -30,22 +30,7 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
-        use: {
-          loader: "babel-loader",
-          options: {
-            presets: ["@babel/preset-env"],
-            plugins: [
-              "@babel/transform-runtime",
-              [
-                "component",
-                {
-                  libraryName: "element-ui",
-                  styleLibraryName: "theme-chalk"
-                }
-              ]
-            ]
-          }
-        }
+        use:  "babel-loader"
       }
     ]
   },

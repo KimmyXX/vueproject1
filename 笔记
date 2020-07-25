@@ -58,6 +58,25 @@ node_modules/
 
 查看配置是否成功可以打开IE测试es6语法
 
+webpack.config.js中配置
+{
+    test: /\.js$/,
+    exclude: /(node_modules|bower_components)/,
+    use:  "babel-loader"
+}
+
+.babelrc 中配置
+{
+  "presets": [
+    "@babel/preset-env"
+  ],
+  "plugins": [
+    "@babel/transform-runtime"
+  ]
+}
+
+
+
 2.
 配置file-loader
 第一步：npm install file-loader -D

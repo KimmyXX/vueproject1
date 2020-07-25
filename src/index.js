@@ -1,1 +1,9 @@
-console.log(123);
+class testClass {
+  constructor() {
+    this.consolex = function() {
+      console.log("x");
+    }
+  }
+}
+let x = new testClass();
+x.consolex();

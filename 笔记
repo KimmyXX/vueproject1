@@ -41,7 +41,7 @@ node_modules/
 
 
 ----------------------------------------------------------------------以下为各个loader配置
-以下出现找不到module就试试重装，有时安装完一个包另一个用不了可能有损坏，重装可能就好了
+以下出现找不到module就试试重装，有时安装完一个包另一个用不了可能有损坏，重装可能就好了,特别是sass-loader总出现这个问题---------特别注意
 
 
 1.babel配置（加载 ES2015+ 代码，然后使用 Babel 转译为 ES5）,看官方文档
@@ -91,7 +91,39 @@ plugins: [new HTMLWebpackPlugin()]
 
 
 2.
-模块热更新配置
+热更新配置
+第一步：npm i -D webapck-dev-server
+第二步：配置webpack.config.js
+devServer: {
+    port: 8080,   //  端口
+    open: true    //  自动打开
+  }
+第三步：配置package.json
+"scripts": {
+    "build": "webpack-dev-server"
+  }
+
+webapck-dev-server常用的配置属性
+devServer: {
+    contentBase: "./",//本地服务器所加载的页面所在的目录
+    historyApiFallback: true,//不跳转
+    host:'0.0.0.0',  //设置为ip地址,手机连接到同一个wifi可以通过这个地址访问,本机ip地址可以通过cmd 的 ipconfig获得
+    port:7000,
+    hot:true,
+    inline: true,//实时刷新
+    hot:true,//Enable webpack's Hot Module Replacement feature
+    compress:true,//Enable gzip compression for everything served
+    overlay: true, //Shows a full-screen overlay in the browser
+    stats: "errors-only" ,//To show only errors in your bundle
+    open:true, //When open is enabled, the dev server will open the browser.
+    proxy: {
+        "/api": {
+            target: "http://localhost:3000",
+            pathRewrite: {"^/api" : ""}
+        }
+    }，//重定向
+ }
+
 
 
 

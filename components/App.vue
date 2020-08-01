@@ -1,15 +1,14 @@
 <template>
   <div>
-    <div>主页</div>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
 export default {
-  created() {
-    let x = this.$http.get('test').then(res => alert(res.body));
-  }
+  // created() {
+  //   let x = this.$http.get('test').then(res => alert(res.body));
+  // }
 };
 </script>
 

@@ -1,2 +1,6 @@
 sass-loader总是报错要重新下载
 cnpm i -D sass-loader
+
+
+
+配置promise的polyfill

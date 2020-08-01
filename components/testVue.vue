@@ -1,6 +1,6 @@
 <template>
   <div>
-
+    <div class="zz">13</div>
   </div>
 </template>
 
@@ -9,5 +9,9 @@ export default {};
 </script>
 
 <style scoped>
-
+.zz {
+  width: 100px;
+  height: 100px;
+  background-color: red;
+}
 </style>

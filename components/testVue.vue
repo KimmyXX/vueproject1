@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="zz">13</div>
+    <div class="zz"></div>
   </div>
 </template>
 

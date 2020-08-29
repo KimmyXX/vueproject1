@@ -4,6 +4,8 @@
   ],
   "plugins": [
     "@babel/transform-runtime",
+    // 路由懒加载插件
+    "@babel/plugin-syntax-dynamic-import",
     [
       "component",
       {

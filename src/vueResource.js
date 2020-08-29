@@ -7,5 +7,5 @@ Vue.http.options.emulateJSON = true
 //允许跨域
 Vue.http.options.crossOrigin = true
 //配置全局请求根地址
-Vue.http.options.root = 'http://192.168.1.105:10998'
+Vue.http.options.root = 'http://192.168.43.192:10998'
 

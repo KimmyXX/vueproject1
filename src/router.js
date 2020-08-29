@@ -1,11 +1,19 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import App from '../components/App.vue'
-import testVue from '../components/testVue.vue'
+
+// 路由懒加载,还有一种import的有问题
+const testVue = r => require.ensure([], () => r(require('../components/testVue.vue')), 'testVue');
+const login = r => require.ensure([], () => r(require('../components/login.vue')), 'login');
+
+//有问题
+// const testVue = () => import(/* webpackChunkName: "testVue" */ '../components/testVue.vue' )
+
+
 Vue.use(VueRouter);
 
 export default new VueRouter({
   routes: [
-    { path: '/', component: testVue }
+    { path: '/', component: login },
+    { path: '/testVue', component: testVue }
   ]
 })

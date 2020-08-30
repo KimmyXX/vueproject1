@@ -34,11 +34,12 @@ module.exports = {
           'postcss-loader'
         ]
       },
-      { test: /\.(png|jpg|gif)$/, use: "file-loader" },
-      // 加载字体文件
+      // 输出图片文件到对应文件夹，并且按原始命名
+      { test: /\.(png|jpg|gif)$/, use: { loader: "file-loader", options: { outputPath: "./img", name: "[name].[ext]" } } },
+      // 加载字体文件,并输出到对应文件夹
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
-        use: { loader: "file-loader", options: { outputPath: "../fonts" } }
+        use: { loader: "file-loader", options: { outputPath: "./fonts" } }
       },
       { test: /\.less$/, use: ["style-loader", "css-loader", "less-loader"] },
       {
@@ -51,7 +52,7 @@ module.exports = {
               importLoaders: 2 //如果sass文件里还引入了另外一个sass文件，另一个文件还会从最后一个loader向上解析。如果不加，就直接从css-loader开始解析。// 0 => no loaders (default); 1 => postcss-loader; 2 => postcss-loader, sass-loader
             }
           },
-          'postcss-loader',//配置在css-loader后，在sass|less|style-loader 之前
+          'postcss-loader',
           'sass-loader'
         ]
       },

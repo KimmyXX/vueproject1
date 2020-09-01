@@ -3,10 +3,12 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 let store = new Vuex.Store({
   state: {
-    userInfo: {}
+    userInfo: {},
+    // 静态资源位置，用于img等的src中
+    sourcePath: 'http://127.0.0.1:10998/'
   },
   mutations: {
-    changeUsername(state,params) {
+    changeUserInfo(state,params) {
       if(params.userInfo) {
         state.userInfo = params.userInfo;
       }

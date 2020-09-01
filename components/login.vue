@@ -190,8 +190,8 @@ export default {
               message: "登陆成功",
               type: "success"
             });
-            // 保存登陆信息到vuex
-            this.$store.commit('changeUsername',{ userInfo: { username: vm.form.username } })
+            // 保存用户信息到vuex的state中的userInfo
+            this.$store.commit('changeUserInfo',{ userInfo: data.userInfo })
             // 导航到主页
             this.$router.push('/mainPage');
           } else {

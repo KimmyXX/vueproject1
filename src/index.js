@@ -5,7 +5,7 @@ import Router from './router'
 import './vueResource'
 import App from '../components/App.vue'
 import './style/init.css'
-
+import store from './store'
 
 //  移动端适配,以原稿宽度1360px适配
 
@@ -26,7 +26,8 @@ new Vue({
   render(h) {
     return h(App);
   },
-  router: Router
+  router: Router,
+  store: store
 }).$mount('#app');
 
 

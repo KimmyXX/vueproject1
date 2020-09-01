@@ -189,6 +189,8 @@ export default {
               message: "登陆成功",
               type: "success"
             });
+            // 导航到主页
+            this.$router.push('/mainPage');
           } else {
             this.$message.error("账号或密码错误，登陆失败");
           }
@@ -311,7 +313,7 @@ export default {
     #login,
     #register {
       background-color: white;
-      height: 50%;
+      height: 60%;
       width: 40%;
       border: 10px solid black;
       margin-left: 49%;

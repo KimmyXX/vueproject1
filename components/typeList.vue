@@ -10,7 +10,7 @@ export default {
 
 <style lang="scss" scoped>
   div {
-    height: 50%;
+    height: 3rem;
     background-color: yellow;
   }
 </style>

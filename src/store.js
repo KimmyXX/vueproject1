@@ -5,7 +5,8 @@ let store = new Vuex.Store({
   state: {
     userInfo: {},
     // 静态资源位置，用于img等的src中
-    sourcePath: 'http://127.0.0.1:10998/'
+    sourcePath: 'http://127.0.0.1:10998/upload/',
+    rotatePath: 'http://127.0.0.1:10998/img/'
   },
   mutations: {
     changeUserInfo(state,params) {

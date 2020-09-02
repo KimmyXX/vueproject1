@@ -22,7 +22,7 @@ export default {
 .el-container {
   position: absolute;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   background-color: rgb(48, 47, 47);
 }
 

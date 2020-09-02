@@ -8,9 +8,9 @@ module.exports = {
   mode: "development",
   entry: path.join(__dirname, "./src/index.js"),
   output: {
-    filename: "[name].bundle.js",
+    filename: "[name].js",
     // 按需加载组件
-    chunkFilename: "[name].bundle.js",
+    chunkFilename: "[name].js",
     path: path.join(__dirname, "./dist")
   },
   plugins: [

@@ -48,7 +48,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "" + ({"login":"login","mainPage":"mainPage"}[chunkId]||chunkId) + ".bundle.js"
+/******/ 		return __webpack_require__.p + "" + ({"login":"login","mainPage":"mainPage"}[chunkId]||chunkId) + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -625,7 +625,7 @@ eval("var nestRE = /^(attrs|props|on|nativeOn|class|style|hook)$/\n\nmodule.expo
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nexports[\"default\"] = void 0;\n//\n//\n//\n//\n//\n//\nvar _default = {// created() {\n  //   let x = this.$http.get('test').then(res => alert(res.body));\n  // }\n};\nexports[\"default\"] = _default;\n\n//# sourceURL=webpack:///./components/App.vue?./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options");
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nexports[\"default\"] = void 0;\n//\n//\n//\n//\n//\n//\nvar _default = {\n  // 处理vuex刷新页面数据丢失问题\n  created: function created() {\n    var _this = this;\n\n    //在页面加载时读取sessionStorage里的状态信息\n    if (sessionStorage.getItem(\"store\")) {\n      this.$store.replaceState(Object.assign({}, this.$store.state, JSON.parse(sessionStorage.getItem(\"store\"))));\n    } //在页面刷新时将vuex里的信息保存到sessionStorage里\n\n\n    window.addEventListener(\"beforeunload\", function () {\n      sessionStorage.setItem(\"store\", JSON.stringify(_this.$store.state));\n    });\n  }\n};\nexports[\"default\"] = _default;\n\n//# sourceURL=webpack:///./components/App.vue?./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options");
 
 /***/ }),
 

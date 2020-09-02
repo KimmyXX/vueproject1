@@ -3,7 +3,7 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 let store = new Vuex.Store({
   state: {
-    userInfo: {},
+    userInfo: null,
     // 静态资源位置，用于img等的src中
     sourcePath: 'http://127.0.0.1:10998/upload/',
     rotatePath: 'http://127.0.0.1:10998/img/'

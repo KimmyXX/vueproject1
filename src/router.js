@@ -18,7 +18,9 @@ const typeList = r =>
 
 Vue.use(VueRouter);
 
-export default new VueRouter({
+
+
+const router = new VueRouter({
   routes: [
     { path: "/", component: login },
     {
@@ -28,3 +30,17 @@ export default new VueRouter({
     }
   ]
 });
+
+router.beforeEach((to,from,next) => {
+  // if(to.path != '/' && this.$store.state.userInfo == null) {
+
+  // }
+  if(to.path != "/" && sessionStorage.getItem('login') != "true") {
+    next({ path: '/' });
+  }
+  else {
+    next();
+  }
+})
+
+export default router;

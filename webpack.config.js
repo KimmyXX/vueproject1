@@ -42,20 +42,6 @@ module.exports = {
           "postcss-loader"
         ]
       },
-      // 输出图片文件到对应文件夹，并且按原始命名
-      {
-        test: /\.(png|jpg|gif)$/,
-        use: {
-          loader: "file-loader",
-          options: { outputPath: "./img", name: "[name].[ext]" }
-        }
-      },
-      // 加载字体文件,并输出到对应文件夹
-      {
-        test: /\.(woff|woff2|eot|ttf|otf)$/,
-        use: { loader: "file-loader", options: { outputPath: "./fonts" } }
-      },
-
       {
         test: /\.less$/,
         use: [
@@ -63,6 +49,7 @@ module.exports = {
             loader: MiniCssExtractPlugin.loader
           },
           "css-loader",
+          "postcss-loader",
           "less-loader"
         ]
       },
@@ -81,6 +68,19 @@ module.exports = {
           "postcss-loader",
           "sass-loader"
         ]
+      },
+      // 输出图片文件到对应文件夹，并且按原始命名
+      {
+        test: /\.(png|jpg|gif)$/,
+        use: {
+          loader: "file-loader",
+          options: { outputPath: "./img", name: "[name].[ext]" }
+        }
+      },
+      // 加载字体文件,并输出到对应文件夹
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/,
+        use: { loader: "file-loader", options: { outputPath: "./fonts" } }
       },
       {
         test: /\.vue$/,

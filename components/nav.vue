@@ -1,7 +1,18 @@
 <template>
-  <div>
-    <span>{{ $store.state.userInfo.nickname }}</span>
-    <img :src="imgSrc" alt="">
+  <div class="out">
+    <el-menu
+      mode="horizontal"
+      background-color="black"
+      text-color="#fff"
+      active-text-color="#ffd04b"
+      default-active="1"
+    >
+      <el-menu-item index="1">首页</el-menu-item>
+    </el-menu>
+    <div class="userBox">
+      <span>{{ $store.state.userInfo.nickname }}</span>
+      <img :src="imgSrc" />
+    </div>
   </div>
 </template>
 
@@ -10,22 +21,22 @@ export default {
   data() {
     return {
       imgSrc: this.$store.state.sourcePath + this.$store.state.userInfo.photo
-    }
+    };
   },
-  created() {
-  }
-}
+  created() {}
+};
 </script>
 
 <style lang="scss" scoped>
-div {
+.out {
   width: 100%;
   height: 100%;
   background-color: black;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
 }
+
 img {
   width: 3rem;
   height: 3rem;
@@ -34,5 +45,9 @@ img {
 }
 span {
   color: white;
+}
+.userBox {
+  display: flex;
+  align-items: center;
 }
 </style>

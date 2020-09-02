@@ -2,7 +2,7 @@
   <el-carousel :interval="4000" type="card">
     <template v-if="getImgSuccess">
       <el-carousel-item v-for="item in rotateImgs" :key="item.imgname">
-        <img class="rotateImg" :src="$store.state.rotatePath + item.imgname" alt="xx">
+        <el-image  style="width: 100%; height: 100%" :src="$store.state.rotatePath + item.imgname" fit="fill"></el-image>
       </el-carousel-item>
     </template>
     <!-- 加载轮播图失败显示 -->
@@ -30,7 +30,6 @@ export default {
           this.rotateImgs = data.rotateList;
           this.getImgSuccess = true;
         }
-        console.log(data);
       })
       .catch(err => {
         console.log(err.message);
@@ -42,7 +41,6 @@ export default {
 <style lang="scss" scoped>
 .el-carousel {
   width: 80%;
-  height: 10%;
   margin: 0 auto;
 }
 .el-carousel__item h3 {
@@ -60,10 +58,5 @@ export default {
 
 .el-carousel__item:nth-child(2n + 1) {
   background-color: #d3dce6;
-}
-
-.rotateImg {
-  width: 100%;
-  height: 100%;
 }
 </style>

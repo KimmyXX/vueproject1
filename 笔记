@@ -277,6 +277,122 @@ devServer: {
 
 
 
+--------------------------------------------------------------------------------------------------------
+抽离css文件
+
+const ExtractTextPlugin = require("extract-text-webpack-plugin");  //记得先install该模块
+module: {
+        rules: [
+            {
+                test: /\.vue$/,
+                loader: 'vue-loader',
+                options: {
+                    loaders: {
+                        scss: ExtractTextPlugin.extract({ fallback: 'vue-style-loader', use: 'css-loader!sass-loader' })
+                        css: ExtractTextPlugin.extract({ fallback: 'vue-style-loader', use: 'css-loader' }),
+                    }
+                }
+            },
+            {
+                test: /\.css$/,
+                use: ExtractTextPlugin.extract({    //css的提取
+                    fallback: "style-loader",
+                    use: "css-loader"
+                })
+            },
+            {
+                test: /\.scss$/,
+                use: ExtractTextPlugin.extract({   //css的提取
+                    fallback: "style-loader",
+                    use: ['sass-loader','postcss-loader']
+                })
+            }
+        ]
+    },
+    plugins: [
+        new ExtractTextPlugin({
+            filename: 'css/[name].[contenthash].css',
+            allChunks: true
+        })
+    ]
 
 
 
+
+webpack4使用mini-css-extract-plugin
+cnpm i -D mini-css-extract-plugin
+
+webpack.config.js
+
+// 导入包
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+// 加入plugins
+plugins: [
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // both options are optional
+      filename: "[name].css",
+      chunkFilename: "[id].css"
+    })
+  ],
+//配置module的rules将之前的style-loader都换成
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: "/css"
+            }
+          }
+
+
+rules: [
+      {
+        test: /\.css$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: "css"
+            }
+          },
+          {
+            loader: "css-loader",
+            options: {
+              importLoaders: 2 //如果sass文件里还引入了另外一个sass文件，另一个文件还会从最后一个loader向上解析。如果不加，就直接从css-loader开始解析。// 0 => no loaders (default); 1 => postcss-loader; 2 => postcss-loader, sass-loader
+            }
+          },
+          "postcss-loader"
+        ]
+      },
+      {
+        test: /\.less$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: "css"
+            }
+          },
+          "css-loader",
+          "less-loader"
+        ]
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: 'css',
+            },
+          },
+          {
+            loader: "css-loader",
+            options: {
+              importLoaders: 2 //如果sass文件里还引入了另外一个sass文件，另一个文件还会从最后一个loader向上解析。如果不加，就直接从css-loader开始解析。// 0 => no loaders (default); 1 => postcss-loader; 2 => postcss-loader, sass-loader
+            }
+          },
+          "postcss-loader",
+          "sass-loader"
+        ]
+      }
+]

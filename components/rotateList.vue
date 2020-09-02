@@ -1,5 +1,5 @@
 <template>
-  <el-carousel :interval="4000" type="card" height="200px">
+  <el-carousel :interval="4000" type="card">
     <template v-if="getImgSuccess">
       <el-carousel-item v-for="item in rotateImgs" :key="item.imgname">
         <img class="rotateImg" :src="$store.state.rotatePath + item.imgname" alt="xx">
@@ -26,8 +26,11 @@ export default {
     this.$http
       .get("getRotateList")
       .then(({ data }) => {
-        this.rotateImgs = data.rotateList;
-        this.getImgSuccess = true;
+        if(data.success) {
+          this.rotateImgs = data.rotateList;
+          this.getImgSuccess = true;
+        }
+        console.log(data);
       })
       .catch(err => {
         console.log(err.message);
@@ -39,6 +42,7 @@ export default {
 <style lang="scss" scoped>
 .el-carousel {
   width: 80%;
+  height: 10%;
   margin: 0 auto;
 }
 .el-carousel__item h3 {
@@ -60,5 +64,6 @@ export default {
 
 .rotateImg {
   width: 100%;
+  height: 100%;
 }
 </style>

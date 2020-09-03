@@ -5,13 +5,13 @@
     </el-header>
     <el-main>
       <router-view name="rotateList"></router-view>
-      <typeList v-for="item in typeMovieList" :movielist="item" :key="item.type"></typeList>
+      <movieList v-for="item in typeMovieList" :movielist="item" :key="item.type"></movieList>
     </el-main>
   </el-container>
 </template>
 
 <script>
-import typeList from "./typeList.vue";
+import movieList from "./movieList.vue";
 export default {
   data() {
     return {
@@ -19,7 +19,7 @@ export default {
     }
   },
   components: {
-    typeList
+    movieList
   },
   created() {
     this.$http

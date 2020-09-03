@@ -1,14 +1,21 @@
 <template>
   <div class="out">
-    <el-menu
-      mode="horizontal"
-      background-color="black"
-      text-color="#fff"
-      active-text-color="#ffd04b"
-      default-active="1"
-    >
-      <el-menu-item index="1">首页</el-menu-item>
-    </el-menu>
+    <div class="leftBox">
+      <div class="logo">
+        <i class="el-icon-video-camera"></i>
+        <span>Movie</span>
+      </div>
+      <el-menu
+        mode="horizontal"
+        background-color="black"
+        text-color="#fff"
+        active-text-color="#ffd04b"
+        default-active="1"
+      >
+        <el-menu-item index="1">首页</el-menu-item>
+        <el-menu-item index="2">历史记录</el-menu-item>
+      </el-menu>
+    </div>
     <div class="userBox">
       <span>{{ $store.state.userInfo.nickname }}</span>
       <img :src="imgSrc" />
@@ -28,13 +35,27 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@mixin flexbox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .out {
   width: 100%;
   height: 100%;
   background-color: black;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  @include flexbox;
+}
+
+.leftBox {
+  @include flexbox;
+}
+
+.logo {
+  color: white;
+  font-size: 2rem;
+  margin: 0 20px;
 }
 
 img {
@@ -49,5 +70,12 @@ span {
 .userBox {
   display: flex;
   align-items: center;
+}
+
+.el-menu {
+  border: none !important;
+}
+.el-menu-item:hover {
+  background: #4a4a4b !important;
 }
 </style>

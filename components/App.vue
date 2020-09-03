@@ -1,6 +1,6 @@
 <template>
   <div>
-    <transition name="el-fade-in-linear">
+    <transition name="myAnimation" mode="out-in">
       <router-view></router-view>
     </transition>
   </div>
@@ -23,5 +23,14 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+  .myAnimation-enter-active,
+  .myAnimation-leave-active {
+    transition: all 0.5s;
+  }
+  .myAnimation-enter,
+  .myAnimation-leave-to {
+    opacity: 0;
+  }
+
 </style> 

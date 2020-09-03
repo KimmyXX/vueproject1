@@ -37,7 +37,9 @@ export default {
       .then(({ data }) => {
         if (data.success) {
           this.rotateImgs = data.rotateList;
-          this.getImgSuccess = true;
+          if(data.rotateList.length != 0) {
+            this.getImgSuccess = true;
+          }
         }
       })
       .catch(err => {

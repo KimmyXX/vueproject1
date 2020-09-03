@@ -1,30 +1,115 @@
+#outBox[data-v-2fd93f33] {
+  width: 90%;
+  margin: 20px auto;
+}
+.el-row[data-v-2fd93f33] {
+  border-radius: 10px;
+  margin: 0 auto;
+  background-color: #636464;
+  padding: 0 5px;
+}
+.el-col[data-v-2fd93f33] {
+  border-radius: 4px;
+  margin: 10px 0;
+  height: 250px;
+}
+.grid-content[data-v-2fd93f33] {
+  border-radius: 4px;
+  min-height: 36px;
+  background: #d3dce6;
+}
+.head[data-v-2fd93f33],
+.last[data-v-2fd93f33] {
+  background-color: #a4b0be;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: bolder;
+}
+.head[data-v-2fd93f33] {
+  background-color: #747d8c;
+}
+.last[data-v-2fd93f33] {
+  flex-direction: column;
+}
+.el-icon-video-camera[data-v-2fd93f33] {
+  font-size: 4rem;
+}
+.el-col[data-v-2fd93f33]:hover {
+  cursor: pointer;
+  color: #eccc68;
+  background-color: #747d8c;
+}
+.el-col:hover .el-icon-video-camera[data-v-2fd93f33] {
+    -webkit-animation: x-data-v-2fd93f33 0.8s;
+            animation: x-data-v-2fd93f33 0.8s;
+}
+@-webkit-keyframes x-data-v-2fd93f33 {
+0% {
+}
+50% {
+    transform: translate(0, -30px);
+}
+100% {
+}
+}
+@keyframes x-data-v-2fd93f33 {
+0% {
+}
+50% {
+    transform: translate(0, -30px);
+}
+100% {
+}
+}
+
 .el-container[data-v-7fe0bef4] {
   position: absolute;
   width: 100%;
-  height: 100%;
-  background-color: #302f2f;
+  min-height: 100%;
+  background-color: #2f3542;
 }
 
-div[data-v-105716b8] {
+.out[data-v-105716b8] {
   width: 100%;
   height: 100%;
   background-color: black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+img[data-v-105716b8] {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  margin: 20px;
 }
 span[data-v-105716b8] {
   color: white;
 }
-img[data-v-105716b8] {
-  width: 60px;
-  height: 60px;
+.userBox[data-v-105716b8] {
+  display: flex;
+  align-items: center;
 }
 
-div[data-v-e8d000d8] {
-  height: 50%;
-  background-color: blue;
+.el-carousel[data-v-e8d000d8] {
+  width: 80%;
+  margin: 0 auto;
 }
-
-div[data-v-2fd93f33] {
-  height: 50%;
-  background-color: yellow;
+.el-carousel__item h3[data-v-e8d000d8] {
+  color: #475669;
+  font-size: 14px;
+  opacity: 0.75;
+  line-height: 200px;
+  margin: 0;
+  text-align: center;
+}
+.el-carousel__item[data-v-e8d000d8]:nth-child(2n) {
+  background-color: #99a9bf;
+}
+.el-carousel__item[data-v-e8d000d8]:nth-child(2n + 1) {
+  background-color: #d3dce6;
 }
 

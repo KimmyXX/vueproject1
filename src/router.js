@@ -11,8 +11,7 @@ const nav = r =>
   
 const rotateList = r =>
   require.ensure([], () => r(require("../components/rotateList.vue")), "mainPage");
-const typeList = r =>
-  require.ensure([], () =>  r(require("../components/typeList.vue")), "mainPage");
+
 //有问题
 // const testVue = () => import(/* webpackChunkName: "testVue" */ '../components/testVue.vue' )
 
@@ -26,7 +25,7 @@ const router = new VueRouter({
     {
       path: "/mainPage",
       component: mainPage,
-      children: [{ path: "", components: { nav: nav, rotateList: rotateList, typeList: typeList }}]
+      children: [{ path: "", components: { nav: nav, rotateList: rotateList }}]
     }
   ]
 });

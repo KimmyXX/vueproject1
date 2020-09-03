@@ -11,7 +11,7 @@
         text-color="#fff"
         active-text-color="#ffd04b"
         :default-active="defaultActive"
-        router="true"
+        :router="true"
       >
         <el-menu-item index="/mainPage">首页</el-menu-item>
         <el-menu-item index="/2">历史记录</el-menu-item>

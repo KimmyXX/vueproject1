@@ -30,11 +30,8 @@ const router = new VueRouter({
     }
   ]
 });
-
+//路由守卫只有登录过的人才能进入其他路由
 router.beforeEach((to,from,next) => {
-  // if(to.path != '/' && this.$store.state.userInfo == null) {
-
-  // }
   if(to.path != "/" && sessionStorage.getItem('login') != "true") {
     next({ path: '/' });
   }

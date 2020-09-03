@@ -192,6 +192,7 @@ export default {
             });
             // 保存用户信息到vuex的state中的userInfo
             this.$store.commit('changeUserInfo',{ userInfo: data.userInfo });
+            // 记录用户已登录
             sessionStorage.setItem('login',true);
             // 导航到主页
             this.$router.push('/mainPage');

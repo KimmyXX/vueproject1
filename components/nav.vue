@@ -10,10 +10,11 @@
         background-color="black"
         text-color="#fff"
         active-text-color="#ffd04b"
-        default-active="1"
+        :default-active="defaultActive"
+        router="true"
       >
-        <el-menu-item index="1">首页</el-menu-item>
-        <el-menu-item index="2">历史记录</el-menu-item>
+        <el-menu-item index="/mainPage">首页</el-menu-item>
+        <el-menu-item index="/2">历史记录</el-menu-item>
       </el-menu>
     </div>
     <div class="userBox">
@@ -27,10 +28,13 @@
 export default {
   data() {
     return {
-      imgSrc: this.$store.state.sourcePath + this.$store.state.userInfo.photo
+      imgSrc: this.$store.state.sourcePath + this.$store.state.userInfo.photo,
+      defaultActive: '/mainPage'
     };
   },
-  created() {}
+  created() {
+
+  }
 };
 </script>
 

@@ -3,7 +3,7 @@
     <el-row :gutter="10">
       <el-col :span="4" class="head" :style="activeStyle" ref="head">{{ type }}</el-col>
       <el-col :span="4" v-for="(movie,index) in displayMovies" :key="index" class="movie">
-        <div class="moviebox">
+        <div class="moviebox" @click="linkToMovieDetail(movie)">
           <el-image
             style="width: 95%;height:90%;"
             :src="$store.state.rotatePath + movie.imgname"
@@ -31,9 +31,13 @@ export default {
       color: "red"
     };
   },
+  methods: {
+    linkToMovieDetail(movie) {
+      this.$router.push({ path: `/mainPage/movieDetailPage/${movie.id}`});
+    }
+  },
   computed: {
     displayMovies() {
-      console.log(this.$store.state.rotatePath, this.movies[0].imgname);
       if (this.movielist.movies.length >= 4) {
         return this.movielist.movies.slice(0, 4);
       } else {

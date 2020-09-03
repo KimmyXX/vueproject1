@@ -1,42 +1,23 @@
 <template>
   <el-container>
     <el-header>
-      <router-view name="nav"></router-view>
+      <transition name="myAnimation" mode="out-in">
+        <router-view name="head"></router-view>
+      </transition>
     </el-header>
     <el-main>
-      <router-view name="rotateList"></router-view>
-      <movieList v-for="item in typeMovieList" :movielist="item" :key="item.type"></movieList>
+      <transition name="myAnimation" mode="out-in">
+        <router-view name="main1"></router-view>
+      </transition>
+      <transition name="myAnimation" mode="out-in">
+        <router-view name="main2"></router-view>
+      </transition>
     </el-main>
   </el-container>
 </template>
 
 <script>
-import movieList from "./movieList.vue";
-export default {
-  data() {
-    return {
-      typeMovieList: []
-    }
-  },
-  components: {
-    movieList
-  },
-  created() {
-    this.$http
-      .get("getTypeList")
-      .then(({ data }) => {
-        if(data.success) {
-          this.typeMovieList = data.typeMovieList;
-        }
-        else {
-          this.$message.error('获取电影列表失败');
-        }
-      })
-      .catch(err => {
-        console.log(err.message);
-      });
-  }
-};
+export default {};
 </script>
 
 
@@ -48,6 +29,5 @@ export default {
   min-height: 100%;
   // background-color: rgb(48, 47, 47);
   background-color: #2f3542;
-
 }
 </style>

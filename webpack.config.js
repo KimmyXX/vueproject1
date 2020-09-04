@@ -94,7 +94,7 @@ module.exports = {
     ]
   },
   devServer: {
-    host: "127.0.0.1", //设置为ip地址,手机连接到同一个wifi可以通过这个地址访问，不设置的话就为localhost
+    host: "192.168.43.192", //设置为ip地址,手机连接到同一个wifi可以通过这个地址访问，不设置的话就为localhost
     port: 8080, //  端口
     open: true //  自动打开
   }

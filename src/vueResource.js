@@ -20,9 +20,9 @@ Vue.http.interceptors.push((request, next) => {
 })
 
 //配置全局请求根地址
-Vue.http.options.root = 'http://127.0.0.1:10998'
+Vue.http.options.root = 'http://192.168.43.192:10998'
 
-
-
+//本地测试版本
+// Vue.http.options.root = 'http://127.0.0.1:10998'
 // 服务器测试版本
-// Vue.http.options.root = 'http://192.168.43.192:10998'
+// Vue.http.options.root = ''

@@ -7,6 +7,10 @@ import App from '../components/App.vue'
 import './style/init.css'
 import store from './store'
 
+
+// 导入阿里图标库的icon
+import './icon/iconfont'
+
 //  移动端适配,以原稿宽度1360px适配
 
 (function () {

@@ -19,7 +19,37 @@
         </div>
       </div>
     </div>
-    <div class="comment">comment</div>
+    <div class="commentModule">
+      <div class="wirteComment">
+        <el-input
+          type="textarea"
+          :autosize="{ minRows: 3}"
+          resize="none"
+          placeholder="请输入评论内容"
+          v-model="commentInput"
+        ></el-input>
+        <div style="margin-top: 10px;text-align:right;">
+          <el-button type="primary" @click="publishComment">发表评论</el-button>
+        </div>
+      </div>
+      <div class="comment" v-for="(item,index) in comments" :key="item.id">
+        <div class="commentUserInfo">
+          <el-image
+            :src="$store.state.sourcePath + item.photo"
+            style="width: 50px;height: 50px;vertical-align:middle;border-radius:50%;"
+            fit="fill"
+          ></el-image>
+          <span>{{ item.nickname }}</span>
+        </div>
+        <div class="commentConetnt">{{ item.content }}</div>
+        <div style="text-align:right;font-size: 16px;">
+          <svg @click="addClass(index)" class="icon" ref="svgArr" aria-hidden="true">
+            <use xlink:href="#icon-dianzan" />
+          </svg>
+          <span>{{ item.good }}</span>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -35,22 +65,14 @@ export default {
         type: "",
         introduction: "",
         rate: 0
+      },
+      comments: [],
+      commentInput: "",
+      activeClass: ['icon'],
+      activeColor: {
+        // color: "orange"
       }
     };
-  },
-  created() {
-    this.$http
-      .get("getMovieById", { params: { id: this.id } })
-      .then(({ data }) => {
-        if (data.success) {
-          this.movie = data.movie;
-        } else {
-          this.$message.error("获取电影数据失败");
-        }
-      })
-      .catch(err => {
-        console.log(err.message);
-      });
   },
   computed: {
     imgurl() {
@@ -68,6 +90,77 @@ export default {
         this.movie.rate = newVal;
       }
     }
+  },
+  methods: {
+    // 点赞动画
+    addClass(index) {
+      // console.log(this.$refs);
+      // console.log(this.$refs.svgArr[index].getAttribute('class'));
+      this.$refs.svgArr[index].setAttribute('class','icon animateClass');
+      this.$refs.svgArr[index].style.color = "orange";
+    },
+    publishComment() {
+      if (this.commentInput == "") {
+        this.$message({
+          type: "warning",
+          message: "请输入评论内容"
+        });
+      } else {
+        this.$http
+          .post("publishComment", {
+            comment: this.commentInput,
+            username: this.$store.state.userInfo.username,
+            movieid: this.movie.id
+          })
+          .then(({ data }) => {
+            if (data.success) {
+              this.$message({
+                type: "success",
+                message: "发表评论成功"
+              });
+              this.commentInput = "";
+              this.getCommentInfo();
+            } else {
+              this.$message.error("发表评论失败");
+            }
+          })
+          .catch(err => {
+            console.log(err.message);
+          });
+      }
+    },
+    getMovieInfo() {
+      this.$http
+        .get("getMovieById", { params: { id: this.id } })
+        .then(({ data }) => {
+          if (data.success) {
+            this.movie = data.movie;
+          } else {
+            this.$message.error("获取电影数据失败");
+          }
+        })
+        .catch(err => {
+          console.log(err.message);
+        });
+    },
+    getCommentInfo() {
+      this.$http
+        .post("getCommentsByMovieId", { id: this.id })
+        .then(({ data }) => {
+          if (data.success) {
+            this.comments = data.data;
+          } else {
+            this.$message.error("获取评论失败");
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  },
+  created() {
+    this.getMovieInfo();
+    this.getCommentInfo();
   }
 };
 </script>
@@ -117,11 +210,69 @@ export default {
   }
 }
 
-.comment {
+.commentModule {
   width: 90%;
-  min-height: 300px;
+  min-height: 180px;
   background-color: #57606f;
   margin: 0 auto;
   margin-top: 20px;
+  border-radius: 10px;
+  padding: 20px 0;
+  .wirteComment {
+    width: 90%;
+    min-height: 80px;
+    background-color: #a4b0be;
+    margin: 0 auto;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 10px;
+  }
+  .comment {
+    width: 90%;
+    min-height: 80px;
+    background-color: #a4b0be;
+    margin: 0 auto;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    .commentUserInfo span {
+      color: white;
+      font-size: 20px;
+      margin-left: 10px;
+    }
+    .commentConetnt {
+      white-space: pre-wrap;
+      margin-left: 65px;
+    }
+  }
+}
+// 字体图标大小
+// .icon {
+//   color: orange;
+//   font-size: 30px;
+// }
+
+
+// 点赞动画
+.icon:hover {
+  cursor: pointer;
+}
+
+@keyframes dianzan {
+  0% {
+  }
+  50% {
+    transform: rotate(-45deg);
+    font-size: 30px;
+  }
+  100% {
+
+  }
+}
+
+.animateClass {
+  animation: dianzan 1s;
 }
 </style>

@@ -62,6 +62,8 @@ router.beforeEach((to, from, next) => {
     next({ path: "/" });
   } else {
     next();
+    // 路由改变回到顶部
+    window.scroll(0,0);
   }
 });
 

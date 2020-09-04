@@ -1,23 +1,24 @@
 <template>
   <div>
-    <el-container>
-      <el-aside style="width: 20%;overflow:hidden;padding: 10px;">
-        <el-image
-          :src="imgurl"
-          style="width: 100%;height: 100%;"
-          fit="fill"
-        ></el-image>
-      </el-aside>
-      <el-container>
-        <el-header>
-          电影名
-        </el-header>
-        <el-main>
-          介绍
-          播放
-        </el-main>
-      </el-container>
-    </el-container>
+    <div class="movie">
+      <el-image :src="imgurl" style="width: 20%;height: 100%;" fit="fill"></el-image>
+      <div class="rigntBox">
+        <div class="nameIntro">
+          <div>{{ movie.moviename }}</div>
+          <div>介绍：{{ movie.introduction }}</div>
+        </div>
+        <div class="playRate">
+          <el-button type="success" style="width:200px;height: 100%;">开始播放</el-button>
+          <el-rate
+            v-model="value"
+            disabled
+            show-score
+            text-color="#ff9900"
+            score-template="{value}"
+          ></el-rate>
+        </div>
+      </div>
+    </div>
     <div class="comment">comment</div>
   </div>
 </template>
@@ -27,18 +28,24 @@ export default {
   props: ["id"],
   data() {
     return {
-      movie: null
+      movie: {
+        id: "",
+        movieimg: "",
+        moviename: "",
+        type: "",
+        introduction: "",
+        rate: 0
+      }
     };
   },
   created() {
     this.$http
       .get("getMovieById", { params: { id: this.id } })
       .then(({ data }) => {
-        if(data.success) {
+        if (data.success) {
           this.movie = data.movie;
-        }
-        else {
-          this.$message.error('获取电影数据失败');
+        } else {
+          this.$message.error("获取电影数据失败");
         }
       })
       .catch(err => {
@@ -47,11 +54,18 @@ export default {
   },
   computed: {
     imgurl() {
-      if(this.movie) {
-        return this.$store.state.rotatePath + this.movie.imgname
+      if (this.movie.movieimg != "") {
+        return this.$store.state.rotatePath + this.movie.imgname;
+      } else {
+        return "";
       }
-      else {
-        return ''
+    },
+    value: {
+      get() {
+        return Number(this.movie.rate);
+      },
+      set(newVal) {
+        this.movie.rate = newVal;
       }
     }
   }
@@ -59,12 +73,48 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.el-container {
+.movie {
   width: 80%;
-  min-height: 250px;
+  height: 250px;
   background-color: #57606f;
   margin: 0 auto;
   border-radius: 10px;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  .rigntBox {
+    background-color: #747d8c;
+    border-radius: 10px;
+    width: 100%;
+    height: 90%;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px;
+    .nameIntro {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      height: 65%;
+      div:first-child {
+        color: white;
+        font-size: 1.5rem;
+        font-weight: bolder;
+      }
+      div:nth-child(2) {
+        font-size: bold;
+        color: white;
+        margin-top: 10px;
+        background-color: #a4b0be;
+        padding: 10px;
+        border-radius: 5px;
+      }
+    }
+    .playRate {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
 }
 
 .comment {

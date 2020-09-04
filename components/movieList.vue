@@ -9,7 +9,7 @@
             :src="$store.state.rotatePath + movie.imgname"
             fit="fill"
           ></el-image>
-          <div class="moviename">{{ movie.imgname.replace(/\.jpg$/,'') }}</div>
+          <div class="moviename">{{ movie.moviename }}</div>
         </div>
       </el-col>
       <el-col :span="4" class="last">

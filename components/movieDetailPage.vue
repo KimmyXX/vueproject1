@@ -37,6 +37,7 @@
       </div>
       <!-- 评论列表 -->
       <div class="comment" v-for="(item,index) in comments" :key="item.commentid">
+        <!-- 评论人信息 -->
         <div class="commentUserInfo">
           <el-image
             :src="$store.state.sourcePath + item.photo"
@@ -45,9 +46,10 @@
           ></el-image>
           <span>{{ item.nickname }}</span>
         </div>
+        <!-- 评论内容 -->
         <div class="commentConetnt">{{ item.content }}</div>
         <div style="text-align:right;font-size: 16px;">
-          <!-- 根据有无点赞设定颜色 -->
+          <!-- 点赞图标，根据有无点赞设定颜色 -->
           <svg
             @click="dianzhan(index,item.havedianzhan,item)"
             :class="['icon',item.havedianzhan ? 'orangeColor' : '']"
@@ -59,8 +61,12 @@
           <span>{{ item.good }}</span>
         </div>
       </div>
+      <!-- 分页 -->
+      <div class="pagination" v-if="commentLength > 0">
+        <el-pagination background layout="prev,pager,next" :page-size="10" :current-page.sync="whichPage" @current-change="getCommentInfo" :total="commentLength"></el-pagination>
+      </div>
       <!-- 没评论时显示 -->
-      <div class="nocomment" v-if="comments.length == 0">
+      <div class="nocomment" v-if="commentLength == 0">
         暂无评论，快来发表吧(*^▽^*)
       </div>
     </div>
@@ -82,7 +88,9 @@ export default {
       },
       comments: [],
       commentInput: "",
-      activeClass: ["icon"]
+      activeClass: ["icon"],
+      commentLength: 0,
+      whichPage: 1
     };
   },
   computed: {
@@ -225,11 +233,14 @@ export default {
       this.$http
         .post("getCommentsByMovieId", {
           id: this.id,
-          username: this.$store.state.userInfo.username
+          username: this.$store.state.userInfo.username,
+          whichPage: this.whichPage
         })
         .then(({ data }) => {
           if (data.success) {
             this.comments = data.data;
+            this.commentLength = data.commentLength;
+            console.log(data);
           } else {
             this.$message.error("获取评论失败");
           }
@@ -328,6 +339,9 @@ export default {
       white-space: pre-wrap;
       margin-left: 65px;
     }
+  }
+  .pagination {
+    text-align: center;
   }
   .nocomment {
     color: white;

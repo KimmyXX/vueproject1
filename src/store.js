@@ -11,11 +11,13 @@ let store = new Vuex.Store({
     sourcePath: 'http://192.168.43.192:10998/upload/',
     // 网页本身图片位置
     rotatePath: 'http://192.168.43.192:10998/img/',
+    // 网页视频位置
+    moviePath: 'http://192.168.43.192:10998/movie/'
 
     //服务器测试版本
     // sourcePath: 'upload/',
     // rotatePath: 'img/'
-
+    // moviePath: 'movie/'
   },
   mutations: {
     changeUserInfo(state,params) {

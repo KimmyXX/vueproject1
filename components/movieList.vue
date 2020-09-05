@@ -46,14 +46,15 @@ export default {
     },
     // 列表头部背景
     activeStyle() {
-      return {
-        background:
-          "url(" +
-          this.$store.state.rotatePath +
-          this.movies[0].imgname +
-          ") no-repeat",
-        backgroundSize: "100% 100%"
-      };
+      // return {
+      //   background:
+      //     "url(" +
+      //     this.$store.state.rotatePath +
+      //     this.movies[0].imgname +
+      //     ") no-repeat",
+      //   backgroundSize: "100% 100%"
+      // };
+      return {}
     }
   }
 };

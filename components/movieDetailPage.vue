@@ -1,7 +1,9 @@
 <template>
   <div>
+    <!-- 电影播放器模块 -->
+    <player v-if="playerShow" :moviesource="movie.moviesource"></player>
     <!-- 电影信息模块 -->
-    <div class="movie">
+    <div class="movie" v-else>
       <el-image :src="imgurl" style="width: 20%;height: 100%;" fit="fill"></el-image>
       <div class="rigntBox">
         <div class="nameIntro">
@@ -9,7 +11,7 @@
           <div>介绍：{{ movie.introduction }}</div>
         </div>
         <div class="playRate">
-          <el-button type="success" style="width:200px;height: 100%;">开始播放</el-button>
+          <el-button type="success" style="width:200px;height: 100%;" @click="playerShow ? playerShow = false : playerShow = true">开始播放</el-button>
           <el-rate
             v-model="value"
             disabled
@@ -74,6 +76,7 @@
 </template>
 
 <script>
+import player from './player.vue';
 export default {
   props: ["id"],
   data() {
@@ -84,13 +87,15 @@ export default {
         moviename: "",
         type: "",
         introduction: "",
-        rate: 0
+        rate: 0,
+        moviesource: ''
       },
       comments: [],
       commentInput: "",
       activeClass: ["icon"],
       commentLength: 0,
-      whichPage: 1
+      whichPage: 1,
+      playerShow: false
     };
   },
   computed: {
@@ -145,11 +150,13 @@ export default {
               }
               else {
                 this.$message.error("点赞失败");
+                ref.setAttribute("clickflag", 0);
               }
 
             })
             .catch(err => {
               this.$message.error("点赞失败");
+              ref.setAttribute("clickflag", 0);
             });
         } else {
 
@@ -174,10 +181,12 @@ export default {
               }
               else {
                 this.$message.error("取消点赞失败");
+                ref.setAttribute("clickflag", 0);
               }
             })
             .catch(err => {
               this.$message.error("取消点赞失败");
+              ref.setAttribute("clickflag", 0);
             });
         }
       }
@@ -203,7 +212,8 @@ export default {
                 message: "发表评论成功"
               });
               this.commentInput = "";
-              this.getCommentInfo();
+              // 获取后点赞会有问题
+              // this.getCommentInfo();
             } else {
               this.$message.error("发表评论失败");
             }
@@ -240,7 +250,6 @@ export default {
           if (data.success) {
             this.comments = data.data;
             this.commentLength = data.commentLength;
-            console.log(data);
           } else {
             this.$message.error("获取评论失败");
           }
@@ -253,6 +262,9 @@ export default {
   created() {
     this.getMovieInfo();
     this.getCommentInfo();
+  },
+  components: {
+    player
   }
 };
 </script>

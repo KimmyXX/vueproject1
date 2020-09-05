@@ -23,12 +23,15 @@ const movieListModule = r =>
     "mainPage"
   );
 
-const movieDetailPage = r => 
-    require.ensure(
-      [],
-      () => r(require("../components/movieDetailPage.vue")),
-      "movieDetailPage"
-    )
+const movieDetailPage = r =>
+  require.ensure(
+    [],
+    () => r(require("../components/movieDetailPage.vue")),
+    "movieDetailPage"
+  );
+
+const player = r =>
+  require.ensure([], () => r(require("../components/player.vue")), "player");
 //有问题
 // const testVue = () => import(/* webpackChunkName: "testVue" */ '../components/testVue.vue' )
 
@@ -47,7 +50,7 @@ const router = new VueRouter({
         },
         {
           path: "movieDetailPage/:id",
-          components: { head: nav, main1: movieDetailPage},
+          components: { head: nav, main1: movieDetailPage },
           props: {
             main1: true
           }
@@ -63,7 +66,7 @@ router.beforeEach((to, from, next) => {
   } else {
     next();
     // 路由改变回到顶部
-    window.scroll(0,0);
+    window.scroll(0, 0);
   }
 });
 

@@ -30,8 +30,8 @@ const movieDetailPage = r =>
     "movieDetailPage"
   );
 
-const player = r =>
-  require.ensure([], () => r(require("../components/player.vue")), "player");
+// const player = r =>
+//   require.ensure([], () => r(require("../components/player.vue")), "player");
 //有问题
 // const testVue = () => import(/* webpackChunkName: "testVue" */ '../components/testVue.vue' )
 

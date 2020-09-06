@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueResource from 'vue-resource'
+import router from './router'
 Vue.use(VueResource)
 
 //emulateJSON 的作用： 如果Web服务器无法处理编码为 application/json 的请求，你可以启用 emulateJSON 选项。
@@ -13,10 +14,15 @@ Vue.http.options.crossOrigin = true
 // 请求拦截器
 Vue.http.interceptors.push((request, next) => {
   request.credentials = true;
-  // next(function(response) {
-  //   console.log(response);
-  // });
-  next();
+  next(function(response) {
+    // 未登录跳转回登录界面
+    if(response.data.message == "请登录") {
+      sessionStorage.clear();
+      router.push("/");
+      Vue.prototype.$message.error("请重新登录");
+      response.data = null;
+    }
+  });
 })
 
 //配置全局请求根地址

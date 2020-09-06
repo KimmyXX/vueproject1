@@ -1,4 +1,5 @@
 <template>
+<div class="out">
   <el-carousel :interval="4000" type="card">
     <template v-if="getImgSuccess">
       <el-carousel-item v-for="item in rotateImgs" :key="item.imgname">
@@ -6,6 +7,7 @@
           style="width: 100%; height: 100%"
           :src="$store.state.rotatePath + item.imgname"
           fit="fill"
+          @click="goToMovieDetailPage(item.id)"
         >
           <!-- 图片加载失败显示 -->
           <div slot="error" class="image-slot">
@@ -21,6 +23,7 @@
       </el-carousel-item>
     </template>
   </el-carousel>
+</div>
 </template>
 
 <script>
@@ -45,12 +48,17 @@ export default {
       .catch(err => {
         console.log(err.message);
       });
+  },
+  methods: {
+    goToMovieDetailPage(id) {
+      this.$router.push(`mainPage/movieDetailPage/${id}`);
+    }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.el-carousel {
+.out {
   width: 80%;
   margin: 0 auto;
 }

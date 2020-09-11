@@ -12,9 +12,11 @@
           <div class="moviename">{{ movie.moviename }}</div>
         </div>
       </el-col>
-      <el-col :span="4" class="last">
-        <i class="el-icon-video-camera"></i>
-        <div>more {{ movies.length + '+' }}</div>
+      <el-col :span="4">
+        <div class="last" style="width: 100%;height: 100%;" @click="toSearchPage()">
+          <i class="el-icon-video-camera"></i>
+          <div>more {{ movies.length + '+' }}</div>
+        </div>
       </el-col>
     </el-row>
   </div>
@@ -33,7 +35,11 @@ export default {
   },
   methods: {
     linkToMovieDetail(movie) {
-      this.$router.push({ path: `/mainPage/movieDetailPage/${movie.id}`});
+      this.$router.push({ path: `/mainPage/movieDetailPage/${movie.id}` });
+    },
+    toSearchPage() {
+      this.$router.push({ path: `/mainPage/searchPage/${this.type }` });
+      // console.log("xx");
     }
   },
   computed: {
@@ -54,7 +60,7 @@ export default {
       //     ") no-repeat",
       //   backgroundSize: "100% 100%"
       // };
-      return {}
+      return {};
     }
   }
 };
@@ -103,6 +109,7 @@ export default {
 
 .last {
   flex-direction: column;
+  border-radius: 5px;
 }
 
 .el-icon-video-camera {

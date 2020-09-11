@@ -14,12 +14,18 @@
         :router="true"
       >
         <el-menu-item index="/mainPage">首页</el-menu-item>
-        <el-menu-item index="/2">历史记录</el-menu-item>
+        <!-- <el-menu-item index="/mainPage/searchPage/全部">电影</el-menu-item> -->
+        <!-- <el-menu-item index="/222">历史记录</el-menu-item> -->
       </el-menu>
     </div>
     <div class="userBox">
       <span>{{ $store.state.userInfo.nickname }}</span>
-      <img :src="imgSrc" />
+      <el-dropdown size="small">
+        <img :src="imgSrc" />
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item @click.native="logout()">退出登陆</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
     </div>
   </div>
 </template>
@@ -29,11 +35,42 @@ export default {
   data() {
     return {
       imgSrc: this.$store.state.sourcePath + this.$store.state.userInfo.photo,
-      defaultActive: '/mainPage'
+      defaultActive: "/mainPage"
     };
   },
-  created() {
-
+  methods: {
+    logout() {
+      this.$confirm("确认登出?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          this.$http
+            .post("logout", {})
+            .then(({ data }) => {
+              if (data.success) {
+                this.$message({
+                  type: "success",
+                  message: "登出成功"
+                });
+                sessionStorage.clear();
+                this.$router.push("/");
+              } else {
+                this.$message.error("登出失败");
+              }
+            })
+            .catch(err => {
+              this.$message.error("连接服务器错误");
+            });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消登出"
+          });
+        });
+    }
   }
 };
 </script>

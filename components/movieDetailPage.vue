@@ -23,7 +23,7 @@
       </div>
     </div>
     <!-- 评论模块 -->
-    <div class="commentModule">
+    <div class="commentModule" v-if="showComment">
       <!-- 写评论 -->
       <div class="wirteComment">
         <el-input
@@ -95,7 +95,8 @@ export default {
       activeClass: ["icon"],
       commentLength: 0,
       whichPage: 1,
-      playerShow: false
+      playerShow: false,
+      showComment: true
     };
   },
   computed: {
@@ -212,8 +213,9 @@ export default {
                 message: "发表评论成功"
               });
               this.commentInput = "";
+
               // 获取后点赞会有问题
-              // this.getCommentInfo();
+              this.getCommentInfo();
             } else {
               this.$message.error("发表评论失败");
             }

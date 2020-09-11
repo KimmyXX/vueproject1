@@ -20,7 +20,6 @@ Vue.http.interceptors.push((request, next) => {
       sessionStorage.clear();
       router.push("/");
       Vue.prototype.$message.error("请重新登录");
-      response.data = null;
     }
   });
 })

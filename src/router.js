@@ -30,6 +30,13 @@ const movieDetailPage = r =>
     "movieDetailPage"
   );
 
+const searchPage = r =>
+  require.ensure(
+    [],
+    () => r(require("../components/searchPage.vue")),
+    "searchPage"
+  );
+
 // const player = r =>
 //   require.ensure([], () => r(require("../components/player.vue")), "player");
 //有问题
@@ -51,6 +58,13 @@ const router = new VueRouter({
         {
           path: "movieDetailPage/:id",
           components: { head: nav, main1: movieDetailPage },
+          props: {
+            main1: true
+          }
+        },
+        {
+          path: "searchPage/:type",
+          components: { head: nav, main1: searchPage },
           props: {
             main1: true
           }

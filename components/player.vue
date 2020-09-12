@@ -1,15 +1,18 @@
 <template>
   <div class="out" id="videobox" ref="out" @mousemove="controlShow">
     <transition name="toolTransition">
-      <div class="tool" v-show="showTool" ref="tool">
-        <i class="el-icon-video-play playButton button" @click="play()" v-if="ispaused"></i>
-        <i class="el-icon-video-pause playButton button" @click="play()" v-else></i>
-        <i class="el-icon-rank enlargeButton button" @click="enlarge()"></i>
-        <div class="progress" ref="progress" @mouseup="stopChangeProgress">
+      <div class="tool" v-show="showTool" ref="tool" @click="play()">
+        <!-- .stop防止冒泡触发上层的播放按钮效果 -->
+        <i class="el-icon-video-play playButton button" @click.stop="play()" v-if="ispaused"></i>
+        <i class="el-icon-video-pause playButton button" @click.stop="play()" v-else></i>
+        <i class="el-icon-rank enlargeButton button" @click.stop="enlarge()"></i>
+        <div class="currentTime" ref="currentTime" v-if="video">{{ currentTime }}</div>
+        <div class="progress" ref="progress" @click.stop="" @mouseup="stopChangeProgress">
           <div class="transparentProgess" ref="transparentProgess"></div>
           <div class="whiteProgess" ref="whiteProgess"></div>
           <div class="dragCircle" ref="dragCircle" @mousedown="changeProgress"></div>
         </div>
+        <div class="duration" ref="duration" v-if="video">{{ isNaN(video.duration) ? "00:00:00" : parseInt(video.duration / 3600) + " : " +  parseInt(video.duration / 60) + " : " + video.duration % 60  }}</div>
       </div>
     </transition>
     <video class="video" ref="video">
@@ -29,7 +32,8 @@ export default {
       out: null,
       isFull: false,
       flag: null,
-      playChangeFlag: null
+      playChangeFlag: null,
+      currentTime: "00:00:00"
     };
   },
   methods: {
@@ -55,22 +59,34 @@ export default {
       if (this.video.paused) {
         this.ispaused = false;
         this.video.play();
+
+        // 圆点跟随播放改变位置`````````````````````````````````````````````````````````````
+        this.playChangePosition();
       } else {
         this.ispaused = true;
         this.video.pause();
+
+        // 圆点暂停跟随播放改变位置`````````````````````````````````````````````````````````````
+        clearInterval(this.playChangeFlag);
       }
-      // 圆点跟随播放改变位置
-      this.playChangePosition();
     },
     // 放大缩小
     enlarge() {
+      // 调整时间高度
+      let duration = this.$refs.duration;
+      let currentTime = this.$refs.currentTime;
       if (this.isFull) {
         this.exitFullscreen();
         this.isFull = false;
+        duration.style.bottom = "4%";
+        currentTime.style.bottom = "4%";
       } else {
         this.launchFullscreen(this.out);
         this.isFull = true;
+        duration.style.bottom = "7%";
+        currentTime.style.bottom = "7%";
       }
+      this.playChangePosition();
     },
     // 注意不只作用于video标签，所有标签都行
     // 進入全屏
@@ -119,11 +135,11 @@ export default {
         document.IsFullScreen = false;
       }
     },
-
-    // 修改进度条
+    // 拖动进度条
     changeProgress() {
-      // 进度条暂停跟随，没用？？
+      // 进度条暂停跟随````````````````````````````````````````````````````````````````
       clearInterval(this.playChangeFlag);
+
       this.out.addEventListener("mousemove", this.progressPosition);
     },
     // 停止修改进度条，并开始播放
@@ -134,8 +150,10 @@ export default {
       this.video.currentTime = parseInt(
         (this.video.duration * (event.screenX - x)) / progressWidth
       );
+      this.ispaused = false;
+      this.video.play();
 
-
+      // 进度条继续跟随``````````````````````````````````````````````````````````````````````
       this.playChangePosition();
     },
     // 修改原点位置和白条位置
@@ -146,26 +164,34 @@ export default {
         this.$refs.dragCircle.style.left = `calc(${((event.screenX - x) /
           progressWidth) *
           100}% - 0.5rem)`;
-
         this.$refs.whiteProgess.style.width = event.screenX - x + "px";
       }
     },
     // 跟随播放修改圆点和白条位置
     playChangePosition() {
+      // 清理上一次，防抖··········································································
+      clearTimeout(this.playChangeFlag);
+
       let vm = this;
       // 进度条左部距离窗口位置；
       let x = this.out.offsetLeft + this.out.clientWidth * 0.15;
       // 进度条长
       let progressWidth = this.$refs.transparentProgess.offsetWidth;
       // 圆点位置
-      this.$refs.dragCircle.style.left = `calc(${this.video.currentTime / this.video.duration * 100}% - 0.5rem)`;
+      this.$refs.dragCircle.style.left = `calc(${(this.video.currentTime /
+        this.video.duration) *
+        100}% - 0.5rem)`;
       // 进度条长度
-      this.$refs.whiteProgess.style.width = progressWidth * this.video.currentTime / this.video.duration + "px";
+      this.$refs.whiteProgess.style.width =
+        (progressWidth * this.video.currentTime) / this.video.duration + "px";
 
-      this.playChangeFlag = setTimeout(vm.playChangePosition,1000);
+      // 修改当前时间
+      this.currentTime = isNaN(this.video.currentTime) ? "00:00:00" : parseInt(this.video.currentTime / 3600) + " : " +  parseInt(this.video.currentTime / 60) + " : " + parseInt(this.video.currentTime % 60);
+
+      // 每一秒修改一次位置`````````````````````````````````````````````````````````````````````
+      this.playChangeFlag = setTimeout(vm.playChangePosition, 250);
     }
   },
-
   mounted() {
     this.video = this.$refs.video;
     this.out = this.$refs.out;
@@ -174,7 +200,6 @@ export default {
 
     this.$refs.dragCircle.style.left = "calc(0% - 0.5rem)";
     this.$refs.whiteProgess.style.width = "0";
-
   }
 };
 </script> 
@@ -246,6 +271,18 @@ export default {
       width: 1rem;
       position: absolute;
     }
+  }
+  .duration,
+  .currentTime {
+    position: absolute;
+    color: white;
+    right: 10%;
+    bottom: 4%;
+    font-size: 10px;
+  }
+  .currentTime {
+    left: 10%;
+    bottom: 4%;
   }
 }
 

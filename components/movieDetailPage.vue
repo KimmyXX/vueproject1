@@ -1,7 +1,9 @@
 <template>
   <div>
     <!-- 电影播放器模块 -->
-    <player v-if="playerShow" :moviesource="movie.moviesource"></player>
+    <player v-if="!playerShow" :moviesource="movie.moviesource"></player>
+
+    
     <!-- 电影信息模块 -->
     <div class="movie" v-else>
       <el-image :src="imgurl" style="width: 20%;height: 100%;" fit="fill"></el-image>
@@ -215,7 +217,9 @@ export default {
               this.commentInput = "";
 
               // 获取后点赞会有问题
+              this.comments = [];
               this.getCommentInfo();
+
             } else {
               this.$message.error("发表评论失败");
             }

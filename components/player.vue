@@ -1,22 +1,60 @@
 <template>
   <div class="out" id="videobox" ref="out" @mousemove="controlShow">
     <transition name="toolTransition">
-      <div class="tool" v-show="showTool" ref="tool" @click="play()">
+      <div class="tool" v-show="showTool" ref="tool">
         <!-- .stop防止冒泡触发上层的播放按钮效果 -->
         <i class="el-icon-video-play playButton button" @click.stop="play()" v-if="ispaused"></i>
         <i class="el-icon-video-pause playButton button" @click.stop="play()" v-else></i>
         <i class="el-icon-rank enlargeButton button" @click.stop="enlarge()"></i>
+        <!-- 音量条 -->
+
+        <div
+          class="volumn button"
+          ref="volumnOut"
+          @mouseleave="stopVolumePosition"
+          @mouseup="stopVolumePosition"
+          @click.stop
+        >
+          <transition name="volumn">
+            <div
+              class="volumnInner"
+              v-show="showVolumn"
+              @mouseenter="showVolumn = true"
+              @mouseleave="showVolumn = false"
+            >
+              <div class="columnTransparent" ref="columnTransparent"></div>
+              <div class="columnWhite" ref="columnWhite"></div>
+              <div class="columnCircle" ref="columnCircle" @mousedown="changeColumnCircle"></div>
+            </div>
+          </transition>
+        </div>
+
+        <!-- 音量标志 -->
+        <svg
+          class="button icon laba"
+          aria-hidden="true"
+          @mouseenter="showVolumn = true"
+          @mouseleave="showVolumn = false"
+          @click.stop
+        >
+          <use xlink:href="#icon-laba" />
+        </svg>
+
         <div class="currentTime" ref="currentTime" v-if="video">{{ currentTime }}</div>
-        <div class="progress" ref="progress" @click.stop="" @mouseup="stopChangeProgress">
+        <div class="progress" ref="progress" @mouseup="stopChangeProgress" @click.stop>
           <div class="transparentProgess" ref="transparentProgess"></div>
           <div class="whiteProgess" ref="whiteProgess"></div>
           <div class="dragCircle" ref="dragCircle" @mousedown="changeProgress"></div>
         </div>
-        <div class="duration" ref="duration" v-if="video">{{ isNaN(video.duration) ? "00:00:00" : parseInt(video.duration / 3600) + " : " +  parseInt(video.duration / 60) + " : " + video.duration % 60  }}</div>
+        <div
+          class="duration"
+          ref="duration"
+          v-if="video"
+        >{{ isNaN(video.duration) ? "00:00:00" : parseInt(video.duration / 3600) + " : " + parseInt(video.duration / 60) + " : " + video.duration % 60 }}</div>
       </div>
     </transition>
     <video class="video" ref="video">
-      <source :src="this.$store.state.moviePath + 'testMovie.mp4'" type="video/mp4" />
+      <source :src="this.$store.state.moviePath + moviesource" type="video/mp4" />
     </video>
   </div>
 </template>
@@ -33,7 +71,8 @@ export default {
       isFull: false,
       flag: null,
       playChangeFlag: null,
-      currentTime: "00:00:00"
+      currentTime: "00:00:00",
+      showVolumn: false
     };
   },
   methods: {
@@ -57,18 +96,15 @@ export default {
     // 播放停止
     play() {
       if (this.video.paused) {
-        this.ispaused = false;
         this.video.play();
-
         // 圆点跟随播放改变位置`````````````````````````````````````````````````````````````
         this.playChangePosition();
       } else {
-        this.ispaused = true;
         this.video.pause();
-
         // 圆点暂停跟随播放改变位置`````````````````````````````````````````````````````````````
         clearInterval(this.playChangeFlag);
       }
+      this.ispaused = !this.ispaused;
     },
     // 放大缩小
     enlarge() {
@@ -186,10 +222,62 @@ export default {
         (progressWidth * this.video.currentTime) / this.video.duration + "px";
 
       // 修改当前时间
-      this.currentTime = isNaN(this.video.currentTime) ? "00:00:00" : parseInt(this.video.currentTime / 3600) + " : " +  parseInt(this.video.currentTime / 60) + " : " + parseInt(this.video.currentTime % 60);
+      this.currentTime = isNaN(this.video.currentTime)
+        ? "00:00:00"
+        : parseInt(this.video.currentTime / 3600) +
+          " : " +
+          parseInt(this.video.currentTime / 60) +
+          " : " +
+          parseInt(this.video.currentTime % 60);
 
       // 每一秒修改一次位置`````````````````````````````````````````````````````````````````````
       this.playChangeFlag = setTimeout(vm.playChangePosition, 250);
+    },
+
+    // 音量控制
+    changeColumnCircle() {
+      document.addEventListener("mousemove", this.volumePosition);
+    },
+    volumePosition() {
+      let columnCircle = this.$refs.columnCircle;
+      let columnTransparent = this.$refs.columnTransparent;
+      let columnWhite = this.$refs.columnWhite;
+      // window.screen.height                  整个屏幕高度(顶部工具栏 + 可用部分高度 +)
+      // window.screen.availHeight             包含顶部工具栏的高度（顶部工具栏 + 可用部分高度）
+      // document.documentElement.clientHeight 可用部分高度
+      // event.screenY                         事件触发距离屏幕顶部的高度
+      // columnTransparent.getBoundingClientRect().top  元素距离可用部分顶部高度
+      // columnTransparent.getBoundingClientRect().height  元素高度
+
+      // 圆珠的bottom: columnTransparent.getBoundingClientRect().height - (event.screenY - (window.screen.availHeight - document.documentElement.clientHeight) - columnTransparent.getBoundingClientRect().top)
+
+      let result =
+        columnTransparent.getBoundingClientRect().height -
+        (event.screenY -
+          (window.screen.availHeight - document.documentElement.clientHeight) -
+          columnTransparent.getBoundingClientRect().top);
+      if (
+        result > 0 &&
+        result < columnTransparent.getBoundingClientRect().height - 8
+      ) {
+        columnCircle.style.bottom = result + "px";
+        columnWhite.style.height = result + "px";
+        let volume =
+          parseInt(
+            (result / (columnTransparent.getBoundingClientRect().height - 8)) *
+              100
+          ) * 0.01;
+        if (volume < 0.05) {
+          this.video.volume = 0;
+        }
+        else {
+          this.video.volume = volume;
+        }
+
+      }
+    },
+    stopVolumePosition() {
+      document.removeEventListener("mousemove", this.volumePosition);
     }
   },
   mounted() {
@@ -200,6 +288,11 @@ export default {
 
     this.$refs.dragCircle.style.left = "calc(0% - 0.5rem)";
     this.$refs.whiteProgess.style.width = "0";
+
+    this.$refs.columnCircle.style.bottom = "20%";
+    this.$refs.columnWhite.style.height = "calc(20% + 0.5rem)";
+    this.video.volume = 0.2;
+
   }
 };
 </script> 
@@ -239,7 +332,7 @@ export default {
   }
   .enlargeButton {
     transform: rotate(45deg);
-    right: 5%;
+    right: 1%;
     bottom: 5%;
   }
   .progress {
@@ -284,6 +377,58 @@ export default {
     left: 10%;
     bottom: 4%;
   }
+  .laba.icon {
+    right: 5%;
+    bottom: 5%;
+    font-size: 1.5rem;
+    background-color: rgb(138, 137, 137);
+    padding: 0.2rem;
+    border-radius: 50%;
+    &:hover {
+      color: white;
+    }
+  }
+
+  .volumn {
+    right: calc(5% + 0.48rem);
+    bottom: calc(5% + 1.9rem);
+    // bottom: 30%;
+    height: 60px;
+    width: 1rem;
+    overflow: hidden;
+    .volumnInner {
+      border-radius: 10px;
+      background-color: rgb(138, 137, 137);
+      height: 100%;
+      width: 1rem;
+      position: relative;
+      .columnTransparent,
+      .columnWhite {
+        height: 100%;
+        border-radius: 5px;
+        background-color: rgba(255, 255, 255, 0.2);
+        width: 0.5rem;
+        left: 50%;
+        margin-left: -25%;
+        position: absolute;
+      }
+      .columnWhite {
+        bottom: 0%;
+        background-color: white;
+      }
+      .columnCircle {
+        position: absolute;
+        left: 50%;
+        margin-left: -25%;
+        background-color: rgb(0, 0, 0);
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 50%;
+        // bottom: calc(100% - 0.5rem);
+        // bottom: calc(20% - 0.5rem);
+      }
+    }
+  }
 }
 
 // 工具显示动画
@@ -294,6 +439,17 @@ export default {
 
 .toolTransition-enter-active,
 .toolTransition-leave-active {
+  transition: all 1s;
+}
+
+// 音量动画
+.volumn-enter,
+.volumn-leave-to {
+  transform: translateY(100%);
+}
+
+.volumn-enter-active,
+.volumn-leave-active {
   transition: all 1s;
 }
 </style>

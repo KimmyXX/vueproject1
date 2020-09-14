@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 电影播放器模块 -->
-    <player v-if="!playerShow" :moviesource="movie.moviesource"></player>
+    <player v-if="playerShow" :moviesource="movie.moviesource"></player>
 
     
     <!-- 电影信息模块 -->

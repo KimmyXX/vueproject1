@@ -37,6 +37,9 @@ const searchPage = r =>
     "searchPage"
   );
 
+const history = r =>
+  require.ensure([], () => r(require("../components/history.vue")), "history");
+
 // const player = r =>
 //   require.ensure([], () => r(require("../components/player.vue")), "player");
 //有问题
@@ -68,6 +71,10 @@ const router = new VueRouter({
           props: {
             main1: true
           }
+        },
+        {
+          path: "history",
+          components: { head: nav, main1: history }
         }
       ]
     }

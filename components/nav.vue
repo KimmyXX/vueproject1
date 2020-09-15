@@ -15,7 +15,7 @@
       >
         <el-menu-item index="/mainPage">首页</el-menu-item>
         <!-- <el-menu-item index="/mainPage/searchPage/全部">电影</el-menu-item> -->
-        <!-- <el-menu-item index="/222">历史记录</el-menu-item> -->
+        <el-menu-item index="/mainPage/history">历史记录</el-menu-item>
       </el-menu>
     </div>
     <div class="userBox">
@@ -35,7 +35,7 @@ export default {
   data() {
     return {
       imgSrc: this.$store.state.sourcePath + this.$store.state.userInfo.photo,
-      defaultActive: "/mainPage"
+      defaultActive: this.$route.path
     };
   },
   methods: {

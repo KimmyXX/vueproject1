@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 电影播放器模块 -->
-    <player v-if="playerShow" :moviesource="movie.moviesource"></player>
+    <player v-if="playerShow" :movieid="movie.id" :historyCurrentTime="currentTime" :moviesource="movie.moviesource"></player>
 
     
     <!-- 电影信息模块 -->
@@ -92,6 +92,7 @@ export default {
         rate: 0,
         moviesource: ''
       },
+      currentTime: 0,
       comments: [],
       commentInput: "",
       activeClass: ["icon"],
@@ -236,12 +237,13 @@ export default {
         .then(({ data }) => {
           if (data.success) {
             this.movie = data.movie;
+            this.currentTime = data.history.currentTime;
           } else {
             this.$message.error("获取电影数据失败");
           }
         })
         .catch(err => {
-          console.log(err.message);
+          this.$message.error("获取电影数据失败");
         });
     },
     // 获取评论信息

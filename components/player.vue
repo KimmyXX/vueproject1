@@ -1,9 +1,22 @@
 <template>
   <div class="out" id="videobox" ref="out" @mousemove="controlShow">
+    <div class="lastCurrentTime" v-show="lastCurrentTime">
+      <span
+        @click="gotoLastTime"
+      >返回上次播放位置{{ parseInt(historyCurrentTime/3600) + " : " + parseInt(historyCurrentTime%3600/60) + " : " + parseInt(historyCurrentTime%60) }}</span>
+      <span>
+        <i class="el-icon-close" @click="lastCurrentTime = false"></i>
+      </span>
+    </div>
     <transition name="toolTransition">
       <div class="tool" v-show="showTool" ref="tool">
         <!-- .stop防止冒泡触发上层的播放按钮效果 -->
-        <i class="el-icon-video-play playButton button" @click.stop="play()" v-if="ispaused"></i>
+        <i
+          class="el-icon-video-play playButton button"
+          @click.once="showLastCurrentTime"
+          @click.stop="play()"
+          v-if="ispaused"
+        ></i>
         <i class="el-icon-video-pause playButton button" @click.stop="play()" v-else></i>
         <i class="el-icon-rank enlargeButton button" @click.stop="enlarge()"></i>
         <!-- 音量条 -->
@@ -50,7 +63,7 @@
           class="duration"
           ref="duration"
           v-if="video"
-        >{{ isNaN(video.duration) ? "00:00:00" : parseInt(video.duration / 3600) + " : " + parseInt(video.duration / 60) + " : " + video.duration % 60 }}</div>
+        >{{ isNaN(video.duration) ? "00:00:00" : parseInt(video.duration / 3600) + " : " + parseInt(video.duration % 3600 / 60) + " : " + video.duration % 60 }}</div>
       </div>
     </transition>
     <video class="video" ref="video">
@@ -61,7 +74,7 @@
 
 <script>
 export default {
-  props: ["moviesource"],
+  props: ["moviesource", "historyCurrentTime", "movieid"],
   data() {
     return {
       video: null,
@@ -72,10 +85,31 @@ export default {
       flag: null,
       playChangeFlag: null,
       currentTime: "00:00:00",
-      showVolumn: false
+      showVolumn: false,
+      // 显示上次播放位置模块
+      lastCurrentTime: false
     };
   },
   methods: {
+    // 跳转到上次播放位置
+    gotoLastTime() {
+      this.video.currentTime = this.historyCurrentTime;
+      this.lastCurrentTime = false;
+      if (this.ispaused) {
+        this.play();
+      }
+    },
+    // 显示上次播放位置模块
+    showLastCurrentTime() {
+      if (this.historyCurrentTime == "") {
+        return;
+      }
+      let vm = this;
+      this.lastCurrentTime = true;
+      setTimeout(function() {
+        vm.lastCurrentTime = false;
+      }, 10000);
+    },
     // 控制是否显示工具
     controlShow() {
       let vm = this;
@@ -248,14 +282,14 @@ export default {
       // event.screenY                         事件触发距离屏幕顶部的高度
       // columnTransparent.getBoundingClientRect().top  元素距离可用部分顶部高度
       // columnTransparent.getBoundingClientRect().height  元素高度
+      // 最好解决方案event.clientY + getBoundingClientRect
 
       // 圆珠的bottom: columnTransparent.getBoundingClientRect().height - (event.screenY - (window.screen.availHeight - document.documentElement.clientHeight) - columnTransparent.getBoundingClientRect().top)
 
       let result =
         columnTransparent.getBoundingClientRect().height -
-        (event.screenY -
-          (window.screen.availHeight - document.documentElement.clientHeight) -
-          columnTransparent.getBoundingClientRect().top);
+        (event.clientY - columnTransparent.getBoundingClientRect().top);
+
       if (
         result > 0 &&
         result < columnTransparent.getBoundingClientRect().height - 8
@@ -269,11 +303,9 @@ export default {
           ) * 0.01;
         if (volume < 0.05) {
           this.video.volume = 0;
-        }
-        else {
+        } else {
           this.video.volume = volume;
         }
-
       }
     },
     stopVolumePosition() {
@@ -292,7 +324,12 @@ export default {
     this.$refs.columnCircle.style.bottom = "20%";
     this.$refs.columnWhite.style.height = "calc(20% + 0.5rem)";
     this.video.volume = 0.2;
-
+  },
+  beforeDestroy() {
+    this.$http.post("addHistory", {
+      currentTime: parseInt(this.video.currentTime),
+      movieid: this.movieid
+    }).then(result => { console.log(result) }).catch(err => { console.log(err.message); });
   }
 };
 </script> 
@@ -305,6 +342,28 @@ export default {
 }
 .video {
   width: 100%;
+}
+
+.lastCurrentTime {
+  position: absolute;
+  height: 25px;
+  line-height: 25px;
+  width: 200px;
+  padding-left: 5px;
+  background-color: rgb(68, 68, 68);
+  font-size: 12px;
+  color: #fff;
+  top: 50%;
+  left: 20px;
+  margin-top: -15px;
+  z-index: 3;
+  span:hover {
+    cursor: pointer;
+    color: #1e90ff;
+  }
+  span:nth-child(2) {
+    margin-left: 30px;
+  }
 }
 
 .tool {

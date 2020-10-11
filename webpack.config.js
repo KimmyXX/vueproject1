@@ -4,14 +4,18 @@ const VueLoaderPlugin = require("vue-loader/lib/plugin");
 // 抽离css
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
+// 压缩打包js
+const TerserJSPlugin = require("terser-webpack-plugin")
+
 module.exports = {
-  mode: "development",
+  mode: "production",
   entry: path.join(__dirname, "./src/index.js"),
   output: {
     filename: "[name].js",
     // 按需加载组件
     chunkFilename: "[name].js",
-    path: path.join(__dirname, "./dist")
+    path: path.join(__dirname, "./dist"),
+    publicPath: '/',
   },
   plugins: [
     //template模板
@@ -20,7 +24,7 @@ module.exports = {
     // 抽离css文件
     new MiniCssExtractPlugin({
       filename: "[name].css",
-      chunkFilename: "[id].css"
+      chunkFilename: "[name].css"
     })
   ],
   module: {
@@ -93,8 +97,18 @@ module.exports = {
       }
     ]
   },
+  optimization:{
+    minimizer:[
+      // 压缩打包js
+      new TerserJSPlugin({
+        cache: true, // 是否缓存
+        parallel: true, // 是否并行打包
+        sourceMap: true,
+      })
+    ]
+},
   devServer: {
-    host: "192.168.43.192", //设置为ip地址,手机连接到同一个wifi可以通过这个地址访问，不设置的话就为localhost
+    host: "127.0.0.1", //设置为ip地址,手机连接到同一个wifi可以通过这个地址访问，不设置的话就为localhost
     port: 8080, //  端口
     open: true //  自动打开
   }

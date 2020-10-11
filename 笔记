@@ -122,10 +122,12 @@ vue配置
 第一步：
 npm i -S vue
 npm i -S vue-router
-npm i -D vue-html-loader
-npm i -D vue-style-loader
 npm i -D vue-loader
 npm i -D vue-template-compiler
+npm i -D vue-html-loader
+npm i -D vue-style-loader
+
+
 
 第二步：
 配置webpack

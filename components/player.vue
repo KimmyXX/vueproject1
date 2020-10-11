@@ -67,7 +67,7 @@
       </div>
     </transition>
     <video class="video" ref="video">
-      <source :src="this.$store.state.moviePath + moviesource" type="video/mp4" />
+      <source :src="$store.state.moviePath + moviesource" type="video/mp4" />
     </video>
   </div>
 </template>
@@ -326,10 +326,11 @@ export default {
     this.video.volume = 0.2;
   },
   beforeDestroy() {
+    clearTimeout(this.playChangeFlag);
     this.$http.post("addHistory", {
       currentTime: parseInt(this.video.currentTime),
       movieid: this.movieid
-    }).then(result => { console.log(result) }).catch(err => { console.log(err.message); });
+    }).catch(err => { console.log(err.message); });
   }
 };
 </script> 

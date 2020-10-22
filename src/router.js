@@ -4,8 +4,10 @@ import VueRouter from "vue-router";
 // 路由懒加载,还有一种import的有问题
 const login = r =>
   require.ensure([], () => r(require("../components/login.vue")), "login");
+
 const mainPage = r =>
   require.ensure([], () => r(require("../components/main.vue")), "mainPage");
+
 const nav = r =>
   require.ensure([], () => r(require("../components/nav.vue")), "mainPage");
 
@@ -44,6 +46,16 @@ const history = r =>
 //   require.ensure([], () => r(require("../components/player.vue")), "player");
 //有问题
 // const testVue = () => import(/* webpackChunkName: "testVue" */ '../components/testVue.vue' )
+
+//方法2
+// const login =  () => import(/* webpackChunkName: "login" */ "../components/login.vue");
+// const mainPage =  () => import(/* webpackChunkName: "mainPage" */ "../components/main.vue");
+// const nav =  () => import(/* webpackChunkName: "mainPage" */ "../components/nav.vue");
+// const rotateList =  () => import(/* webpackChunkName: "mainPage" */ "../components/rotateList.vue");
+// const movieListModule =  () => import(/* webpackChunkName: "mainPage" */ "../components/movieListModule.vue");
+// const movieDetailPage=  () => import(/* webpackChunkName: "movieDetailPage" */ "../components/movieDetailPage.vue");
+// const searchPage=  () => import(/* webpackChunkName: "searchPage" */ "../components/searchPage.vue");
+// const history=  () => import(/* webpackChunkName: "history" */ "../components/history.vue");
 
 Vue.use(VueRouter);
 

@@ -273,12 +273,12 @@ export default {
         return false;
       }
       const isJPG = this.registerForm.userPicture.type === "image/jpeg" || this.registerForm.userPicture.type === "image/png";
-      const isLt2M = this.registerForm.userPicture.size / 1024 / 1024 < 2;
+      const isLt2M = this.registerForm.userPicture.size / 1024 / 1024 < 10;
 
       if (!isJPG) {
         this.$message.error("上传头像图片只能是 JPG 或 PNG 格式!");
       } else if (!isLt2M) {
-        this.$message.error("上传头像图片大小不能超过 2MB!");
+        this.$message.error("上传头像图片大小不能超过 10MB!");
       }
       return isJPG && isLt2M;
     }

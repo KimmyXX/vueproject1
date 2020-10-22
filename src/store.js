@@ -8,16 +8,16 @@ let store = new Vuex.Store({
     
     // // 静态资源位置，用于img等的src中
     // // 用户上传头像等位置
-    sourcePath: 'http://127.0.0.1:10998/upload/',
-    // 网页本身图片位置
-    rotatePath: 'http://127.0.0.1:10998/img/',
-    // 网页视频位置
-    moviePath: 'http://127.0.0.1:10998/movie/' 
+    // sourcePath: 'http://127.0.0.1:10998/upload/',
+    // // 网页本身图片位置
+    // rotatePath: 'http://127.0.0.1:10998/img/',
+    // // 网页视频位置
+    // moviePath: 'http://127.0.0.1:10998/movie/' 
 
     //服务器测试版本
-    // sourcePath: 'upload/',
-    // rotatePath: 'img/',
-    // moviePath: 'movie/'
+    sourcePath: 'http://192.168.43.30:10998/upload/',
+    rotatePath: 'http://192.168.43.30:10998/img/',
+    moviePath: 'http://192.168.43.30:10998/movie/'
   },
   mutations: {
     changeUserInfo(state,params) {

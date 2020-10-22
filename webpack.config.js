@@ -5,7 +5,7 @@ const VueLoaderPlugin = require("vue-loader/lib/plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 // 压缩打包js
-const TerserJSPlugin = require("terser-webpack-plugin")
+const TerserWebpackPlugin = require("terser-webpack-plugin")
 
 module.exports = {
   mode: "production",
@@ -41,7 +41,16 @@ module.exports = {
               importLoaders: 2 //如果sass文件里还引入了另外一个sass文件，另一个文件还会从最后一个loader向上解析。如果不加，就直接从css-loader开始解析。// 0 => no loaders (default); 1 => postcss-loader; 2 => postcss-loader, sass-loader
             }
           },
-          "postcss-loader"
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: () => [
+                require('autoprefixer')({
+                  overrideBrowserslist: ['last 2 version', '>1%', 'ios 7']
+                })
+              ]
+            }
+          }
         ]
       },
       {
@@ -51,7 +60,16 @@ module.exports = {
             loader: MiniCssExtractPlugin.loader
           },
           "css-loader",
-          "postcss-loader",
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: () => [
+                require('autoprefixer')({
+                  overrideBrowserslist: ['last 2 version', '>1%', 'ios 7']
+                })
+              ]
+            }
+          },
           "less-loader"
         ]
       },
@@ -67,7 +85,16 @@ module.exports = {
               importLoaders: 2 //如果sass文件里还引入了另外一个sass文件，另一个文件还会从最后一个loader向上解析。如果不加，就直接从css-loader开始解析。// 0 => no loaders (default); 1 => postcss-loader; 2 => postcss-loader, sass-loader
             }
           },
-          "postcss-loader",
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: () => [
+                require('autoprefixer')({
+                  overrideBrowserslist: ['last 2 version', '>1%', 'ios 7']
+                })
+              ]
+            }
+          },
           "sass-loader"
         ]
       },
@@ -100,15 +127,15 @@ module.exports = {
   optimization:{
     minimizer:[
       // 压缩打包js
-      new TerserJSPlugin({
+      new TerserWebpackPlugin({
         cache: true, // 是否缓存
         parallel: true, // 是否并行打包
-        sourceMap: true,
+        sourceMap: true, //启动source-map
       })
     ]
 },
   devServer: {
-    host: "127.0.0.1", //设置为ip地址,手机连接到同一个wifi可以通过这个地址访问，不设置的话就为localhost
+    host: "192.168.43.30", //设置为ip地址,手机连接到同一个wifi可以通过这个地址访问，不设置的话就为localhost
     port: 8080, //  端口
     open: true //  自动打开
   }
